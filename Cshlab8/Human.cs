@@ -61,24 +61,31 @@ namespace CshLab6
             }
             get => FixName(_name);
         }
+        
+        static public Func<char, char> FixLetter { get; set; }
+       
         static public string FixName(string value)
         {
             StringBuilder name = new StringBuilder();
             if (value[0] >= 'A' && value[0] <= 'Z') name.Append(value[0]);
             else name.Append((char)(value[0] - 'a' + 'A'));
 
+            if (FixLetter == null)
+                FixLetter = letter => letter;
             for (int i = 1; i < value.Length; i++)
-                if (value[i] >= 'A' && value[i] <= 'Z') name.Append((char)(value[i] - 'A' + 'a'));
-                else name.Append(value[i]);
+                name.Append(FixLetter(value[i]));
             return name.ToString();
         }
         public virtual void OutInfo()
         {
-            Console.WriteLine($"\nName = {_name}\nAge = {_age}\nWeight = {_weight}\nHeigth = {_height}");
+            Console.WriteLine($"\nName = {Name}\nAge = {Age}\nWeight = {Weight}\nHeigth = {Height}");
         }
-
+        
+        public delegate void myAction(object x);
+        public event myAction CloneCreated;
         public object Clone()
         {
+            CloneCreated?.Invoke(this.MemberwiseClone());
             return this.MemberwiseClone();
         }
 

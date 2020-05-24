@@ -62,6 +62,21 @@ namespace CshLab6
             {
                 _SpecificSport.Add(sport);
                 _score += sport.GetResult();
+                sportAdded?.Invoke(sport);
+            }
+        }
+        private Action<ISpecificSport> sportAdded;
+        public event Action<ISpecificSport> SportAdded
+        {
+            add
+            {
+                sportAdded += value;
+                Console.WriteLine("A new event has just been added to {0}", Name);
+            }
+            remove
+            {
+                sportAdded -= value;
+                Console.WriteLine("An old event has just been removed from {0}", Name);
             }
         }
         public override void OutInfo()
@@ -96,6 +111,7 @@ namespace CshLab6
         private int GoldMedal, SilverMedal, BronzeMedal;
         public Medals(int goldMedal, int silverMedal, int bronzeMedal)
         {
+            if (goldMedal < 0 || silverMedal < 0 || bronzeMedal < 0) throw new FormatException("amount of medals cannot be negative");
             GoldMedal = goldMedal;
             SilverMedal = silverMedal;
             BronzeMedal = bronzeMedal;

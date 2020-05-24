@@ -15,6 +15,7 @@ namespace CshLab6
 
         public Programmer(Regions region, int thirdDiplomaResp, int secondDiplomaResp, int firstDiplomaResp, int thirdDiplomaObl = 0, int secondDiplomaObl = 0, int firstDiplomaObl = 0, double klacSpeed = 0)
         {
+            if (thirdDiplomaResp < 0 || secondDiplomaResp < 0 || firstDiplomaResp < 0 || thirdDiplomaObl < 0 || secondDiplomaObl < 0 || firstDiplomaObl < 0) throw new FormatException("amount of diplomas cannot be negative");
             _region = region;
             _thirdDiplomaObl = thirdDiplomaObl;
             _secondDiplomaObl = secondDiplomaObl;
